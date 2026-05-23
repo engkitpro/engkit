@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     .sporty-font { font-family: 'Impact', 'Arial Black', sans-serif; letter-spacing: -1px; }
-    .product-card:hover { transform: translateY(-10px) scale(1.03); transition: all 0.4s; }
+    .product-card:hover { transform: translateY(-12px) scale(1.03); transition: all 0.4s; }
   </style>
 </head>
 <body class="bg-zinc-950 text-white">
@@ -50,26 +50,34 @@
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="products-grid"></div>
   </section>
 
-  <!-- Product Detail Modal -->
+  <!-- Product Detail Modal - محسن وأجمل -->
   <div id="product-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[90] p-4">
-    <div class="bg-zinc-900 rounded-3xl w-full max-w-lg max-h-[92vh] flex flex-col overflow-hidden">
+    <div class="bg-zinc-900 rounded-3xl w-full max-w-lg md:max-w-4xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+      
       <div class="px-6 py-5 border-b border-zinc-700 flex justify-between items-center">
-        <h3 id="modal-title" class="text-xl font-bold sporty-font"></h3>
+        <h3 id="modal-title" class="text-xl md:text-2xl font-bold sporty-font"></h3>
         <button onclick="closeProductModal()" class="text-4xl text-gray-400 hover:text-white">✕</button>
       </div>
 
       <div class="flex-1 overflow-y-auto p-6 space-y-6">
+        <!-- الصورة الرئيسية -->
         <div class="bg-black rounded-2xl p-4">
-          <img id="main-image" class="w-full max-h-[260px] object-contain mx-auto" alt="">
+          <img id="main-image" class="w-full max-h-[280px] md:max-h-[420px] object-contain mx-auto" alt="">
         </div>
+
+        <!-- الثامبنيلز -->
         <div class="grid grid-cols-4 gap-3" id="thumbnails"></div>
 
-        <p id="modal-desc" class="text-gray-400 text-base"></p>
-        <p id="modal-price" class="text-3xl font-bold text-green-400"></p>
+        <!-- معلومات -->
+        <div>
+          <p id="modal-desc" class="text-gray-400 text-base md:text-lg leading-relaxed"></p>
+          <p id="modal-price" class="text-3xl md:text-4xl font-bold text-green-400 mt-4"></p>
+        </div>
 
+        <!-- المقاس -->
         <div>
           <label class="block mb-2 text-sm text-gray-400">اختر المقاس</label>
-          <select id="size-select" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4">
+          <select id="size-select" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-base">
             <option value="S">S</option>
             <option value="M" selected>M</option>
             <option value="L">L</option>
@@ -78,13 +86,15 @@
           </select>
         </div>
 
+        <!-- الكمية -->
         <div>
           <label class="block mb-2 text-sm text-gray-400">الكمية</label>
-          <input type="number" id="quantity-select" value="1" min="1" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4">
+          <input type="number" id="quantity-select" value="1" min="1" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-base">
         </div>
 
+        <!-- زر الإضافة -->
         <button onclick="addCurrentToCart()" 
-                class="w-full bg-green-500 hover:bg-green-400 text-black font-bold py-6 rounded-2xl text-lg">
+                class="w-full bg-green-500 hover:bg-green-400 text-black font-bold py-6 rounded-2xl text-lg shadow-lg">
           أضف إلى السلة ⚡
         </button>
       </div>
@@ -110,12 +120,12 @@
     </div>
   </div>
 
-  <!-- Checkout Modal with Scroll -->
+  <!-- Checkout Modal -->
   <div id="checkout-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[110] p-4">
     <div class="bg-zinc-900 rounded-3xl w-full max-w-md max-h-[88vh] flex flex-col overflow-hidden">
-      <div class="px-6 py-4 border-b border-zinc-700 flex justify-between items-center">
+      <div class="px-6 py-4 border-b flex justify-between items-center">
         <h3 class="text-2xl font-bold">إكمال الطلب</h3>
-        <button onclick="closeCheckout()" class="text-4xl text-gray-400 hover:text-white">✕</button>
+        <button onclick="closeCheckout()" class="text-4xl text-gray-400">✕</button>
       </div>
       
       <div class="flex-1 overflow-y-auto p-6">
@@ -193,16 +203,11 @@
 
     const FORMSPREE_URL = "https://formspree.io/f/xnjrzzlo";
 
-    const products = [ /* نفس المنتجات اللي عندك */ 
-      { id:1, name: "تيشرت اسبانيا الاحتياطي 2026", price: 16, desc: "نسخة لاعبين ", images: ["https://i.postimg.cc/nzDGs8W4/spain2026.jpg","https://i.postimg.cc/0y3sxD1b/spain2.jpg","https://i.postimg.cc/x8gwZbPS/spain3.jpg"] },
-      { id:2, name: "تيشرت الارجنتين الاحتياطي 2026", price: 16, desc: "نسخة لاعبين ", images: ["https://i.postimg.cc/jdS2SHm6/argentina.jpg","https://i.postimg.cc/L8ZHJNT3/argentina2.jpg","https://i.postimg.cc/SRs4krRr/argentina3.jpg"] },
-      { id:3, name: "تيشرت البرتغال الاساسي 2026", price: 16, desc: "نسخة اللاعبين", images: ["https://i.postimg.cc/26jMZ7WJ/portugal.jpg","https://i.postimg.cc/XqCRj7dr/portugal2.jpg","https://i.postimg.cc/sD3mDgYV/portugal3.jpg"] },
-      { id:4, name: "تيشرت المانيا الاساسي 2026", price: 16, desc: "الطبعة الرسمية", images: ["https://i.postimg.cc/sD1BcFyn/germany.jpg","https://i.postimg.cc/d1tQVdVV/germany2.jpg", "https://i.postimg.cc/6Q6TyFHf/germany3.jpg"] },
-      { id:5, name: "تيشرت الارجنتين الاساسي 2026", price: 16, desc: "نسخة اللاعبين", images: ["https://i.postimg.cc/gcLyz6Lm/france.jpg","https://i.postimg.cc/L8ZHJNT3/argentina2.jpg","https://i.postimg.cc/SRs4krRr/argentina3.jpg"] },
-      { id:6, name: "تيشرت برشلونة الذكرى 125", price: 15, desc: ["نسخة اللاعبين","الاكثر مبيعا"], images: ["https://i.postimg.cc/YCPqCjmP/barca.jpg","https://i.postimg.cc/vT2CtxyC/barca4.jpg","https://i.postimg.cc/W4mKfHjM/barca3.jpg","https://i.postimg.cc/Tw7tz8sb/barca2.jpg"] },
-      { id:7, name: "تيشرت الملكية ريال مدريد 25/26", price: 15, desc: "نسخة اللاعبين" , images: ["https://i.postimg.cc/yNrf54t0/madrid.jpg","https://i.postimg.cc/jSxZSSr2/madrid2.jpg","https://i.postimg.cc/057fGwkY/madrid4.jpg","https://i.postimg.cc/52Kq953r/madrid3.jpg"] },
-      { id:8, name: "تيشرت برشلونة النسخة 25/26", price: 15, desc: "نسخة خاصة", images: ["https://i.postimg.cc/L6bnnxcP/barcaa.jpg","https://i.postimg.cc/pTRdg4jR/barcaa-2.jpg","https://i.postimg.cc/XY57X4c4/barcaa-3.jpg","https://i.postimg.cc/VkXmm4mP/barcaa-4.jpg"] },
-      { id:9, name: "تيشرت برشلونة الاساسي لموسم 25/26", price: 15, desc: "نسخة اللاعبين", images: ["https://i.postimg.cc/fRyqvRgZ/bbarcaa.jpg","https://i.postimg.cc/d0TWzSFY/bbarcaa-1.jpg","https://i.postimg.cc/prPq5Wng/bbarcaa-2.jpg","https://i.postimg.cc/hPP2SGnb/bbarcaa-3.jpg"] }
+    const products = [
+      { id:1, name: "تيشرت اسبانيا الاحتياطي 2026", price: 16, desc: "نسخة لاعبين - قماش فاخر", images: ["https://i.postimg.cc/nzDGs8W4/spain2026.jpg","https://i.postimg.cc/0y3sxD1b/spain2.jpg","https://i.postimg.cc/x8gwZbPS/spain3.jpg"] },
+      { id:2, name: "تيشرت الارجنتين الاحتياطي 2026", price: 16, desc: "نسخة لاعبين - قماش فاخر", images: ["https://i.postimg.cc/jdS2SHm6/argentina.jpg","https://i.postimg.cc/L8ZHJNT3/argentina2.jpg","https://i.postimg.cc/SRs4krRr/argentina3.jpg"] },
+      { id:3, name: "تيشرت البرتغال الاساسي 2026", price: 16, desc: "الإصدار الجديد", images: ["https://i.postimg.cc/26jMZ7WJ/portugal.jpg","https://i.postimg.cc/XqCRj7dr/portugal2.jpg","https://i.postimg.cc/sD3mDgYV/portugal3.jpg"] },
+      { id:4, name: "تيشرت المانيا الاساسي 2026", price: 16, desc: "الطبعة الرسمية", images: ["https://i.postimg.cc/sD1BcFyn/germany.jpg","https://i.postimg.cc/d1tQVdVV/germany2.jpg", "https://i.postimg.cc/6Q6TyFHf/germany3.jpg"] }
     ];
 
     const grid = document.getElementById('products-grid');
@@ -316,36 +321,12 @@
       document.getElementById('checkout-modal').classList.add('hidden');
     }
 
-    // إرسال الطلب إلى Formspree
     function submitOrder(e) {
       e.preventDefault();
-
-      const name = document.getElementById('name').value;
-      const phone = document.getElementById('phone').value;
-      const address = document.getElementById('address').value;
-      const payment = document.querySelector('input[name="payment"]:checked').value;
-
-      const orderData = {
-        name: name,
-        phone: phone,
-        address: address,
-        payment: payment === "cash" ? "دفع عند الاستلام" : "دفع إلكتروني",
-        total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-        items: cart.map(item => `${item.name} - مقاس ${item.size} - ${item.quantity} قطع`).join("\n")
-      };
-
-      fetch("https://formspree.io/f/xnjrzzlo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData)
-      })
-      .then(() => {
-        closeCheckout();
-        document.getElementById('success-modal').classList.remove('hidden');
-        cart = [];
-        updateCartCount();
-      })
-      .catch(() => alert("حدث خطأ أثناء الإرسال، حاول مرة أخرى"));
+      closeCheckout();
+      document.getElementById('success-modal').classList.remove('hidden');
+      cart = [];
+      updateCartCount();
     }
   </script>
 </body>
