@@ -203,12 +203,18 @@
 
     const FORMSPREE_URL = "https://formspree.io/f/xnjrzzlo";
 
-    const products = [
-      { id:1, name: "تيشرت اسبانيا الاحتياطي 2026", price: 16, desc: "نسخة لاعبين - قماش فاخر", images: ["https://i.postimg.cc/nzDGs8W4/spain2026.jpg","https://i.postimg.cc/0y3sxD1b/spain2.jpg","https://i.postimg.cc/x8gwZbPS/spain3.jpg"] },
-      { id:2, name: "تيشرت الارجنتين الاحتياطي 2026", price: 16, desc: "نسخة لاعبين - قماش فاخر", images: ["https://i.postimg.cc/jdS2SHm6/argentina.jpg","https://i.postimg.cc/L8ZHJNT3/argentina2.jpg","https://i.postimg.cc/SRs4krRr/argentina3.jpg"] },
-      { id:3, name: "تيشرت البرتغال الاساسي 2026", price: 16, desc: "الإصدار الجديد", images: ["https://i.postimg.cc/26jMZ7WJ/portugal.jpg","https://i.postimg.cc/XqCRj7dr/portugal2.jpg","https://i.postimg.cc/sD3mDgYV/portugal3.jpg"] },
-      { id:4, name: "تيشرت المانيا الاساسي 2026", price: 16, desc: "الطبعة الرسمية", images: ["https://i.postimg.cc/sD1BcFyn/germany.jpg","https://i.postimg.cc/d1tQVdVV/germany2.jpg", "https://i.postimg.cc/6Q6TyFHf/germany3.jpg"] }
+    const products = [ /* نفس المنتجات اللي عندك */ 
+      { id:1, name: "تيشرت اسبانيا الاحتياطي 2026", price: 16, desc: "نسخة لاعبين", images: ["https://i.postimg.cc/nzDGs8W4/spain2026.jpg","https://i.postimg.cc/0y3sxD1b/spain2.jpg","https://i.postimg.cc/x8gwZbPS/spain3.jpg"] },
+      { id:2, name: "تيشرت الارجنتين الاحتياطي 2026", price: 16, desc: "نسخة لاعبين", images: ["https://i.postimg.cc/jdS2SHm6/argentina.jpg","https://i.postimg.cc/L8ZHJNT3/argentina2.jpg","https://i.postimg.cc/SRs4krRr/argentina3.jpg"] },
+      { id:3, name: "تيشرت البرتغال الاساسي 2026", price: 16, desc: "نسخة اللاعبين", images: ["https://i.postimg.cc/26jMZ7WJ/portugal.jpg","https://i.postimg.cc/XqCRj7dr/portugal2.jpg","https://i.postimg.cc/sD3mDgYV/portugal3.jpg"] },
+      { id:4, name: "تيشرت المانيا الاساسي 2026", price: 16, desc: "نسخة اللاعبين", images: ["https://i.postimg.cc/sD1BcFyn/germany.jpg","https://i.postimg.cc/d1tQVdVV/germany2.jpg", "https://i.postimg.cc/6Q6TyFHf/germany3.jpg"] },
+      { id:5, name: "تيشرت الارجنتين الاساسي 2026", price: 16, desc: "نسخة اللاعبين", images: ["https://i.postimg.cc/gcLyz6Lm/france.jpg","https://i.postimg.cc/L8ZHJNT3/argentina2.jpg","https://i.postimg.cc/SRs4krRr/argentina3.jpg"] },
+      { id:6, name: "تيشرت برشلونة الذكرى 125", price: 13, desc: "نسخة اللاعبين", images: ["https://i.postimg.cc/YCPqCjmP/barca.jpg","https://i.postimg.cc/vT2CtxyC/barca4.jpg","https://i.postimg.cc/W4mKfHjM/barca3.jpg","https://i.postimg.cc/Tw7tz8sb/barca2.jpg"] },
+      { id:7, name: "تيشرت الملكية ريال مدريد 25/26", price: 13, desc: "نسخة اللاعبين", images: ["https://i.postimg.cc/yNrf54t0/madrid.jpg","https://i.postimg.cc/jSxZSSr2/madrid2.jpg","https://i.postimg.cc/057fGwkY/madrid4.jpg","https://i.postimg.cc/52Kq953r/madrid3.jpg"] },
+      { id:8, name: "تيشرت برشلونة النسخة 25/26", price: 13, desc: ["نسخة اللاعبين","نسخة خاصة"], images: ["https://i.postimg.cc/L6bnnxcP/barcaa.jpg","https://i.postimg.cc/pTRdg4jR/barcaa-2.jpg","https://i.postimg.cc/XY57X4c4/barcaa-3.jpg","https://i.postimg.cc/VkXmm4mP/barcaa-4.jpg"] },
+      { id:9, name: "تيشرت برشلونة الاساسي لموسم 25/26", price: 13, desc: "نسخة اللاعبين", images: ["https://i.postimg.cc/fRyqvRgZ/bbarcaa.jpg","https://i.postimg.cc/d0TWzSFY/bbarcaa-1.jpg","https://i.postimg.cc/prPq5Wng/bbarcaa-2.jpg","https://i.postimg.cc/hPP2SGnb/bbarcaa-3.jpg"] }
     ];
+
 
     const grid = document.getElementById('products-grid');
     products.forEach(p => {
