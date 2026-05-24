@@ -383,7 +383,7 @@
         name: name,
         phone: phone,
         address: address,
-        payment: payment === "cash" ? "دفع عند الاستلام" : "دفع إلكتروني",
+        payment: payment === "cash" ? "دفع عند الاستلام" : "(سيتم التواصل معك )دفع إلكتروني",
         total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
         items: cart.map(item => `${item.name} - مقاس ${item.size} - ${item.quantity} قطع`).join("\n"),
         date: new Date().toLocaleString('ar-JO')
