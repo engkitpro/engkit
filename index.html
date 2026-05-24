@@ -72,13 +72,11 @@
         <h3 id="modal-title" class="text-xl font-bold sporty-font"></h3>
         <button onclick="closeProductModal()" class="text-4xl text-gray-400 hover:text-white">✕</button>
       </div>
-
       <div class="flex-1 overflow-y-auto p-6 space-y-6">
         <div class="bg-black rounded-2xl p-4">
           <img id="main-image" class="w-full max-h-[260px] object-contain mx-auto" alt="">
         </div>
         <div class="grid grid-cols-4 gap-3" id="thumbnails"></div>
-
         <p id="modal-desc" class="text-gray-400 text-base"></p>
         
         <div class="flex items-baseline gap-3">
@@ -86,7 +84,6 @@
           <span id="modal-price" class="text-4xl font-bold text-green-400"></span>
         </div>
 
-        <!-- طباعة مخصصة -->
         <div class="bg-zinc-800 p-5 rounded-2xl">
           <label class="flex items-center gap-3 cursor-pointer">
             <input type="checkbox" id="custom-print" onchange="togglePrintFields()" class="w-5 h-5 accent-green-500">
@@ -95,7 +92,7 @@
           <div id="print-fields" class="hidden mt-4 space-y-4">
             <div>
               <label class="block mb-1 text-sm text-gray-400">الاسم</label>
-              <input type="text" id="print-name" placeholder="مثال: اسمك" class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4">
+              <input type="text" id="print-name" placeholder="الاسم" class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4">
             </div>
             <div>
               <label class="block mb-1 text-sm text-gray-400">رقم اللاعب</label>
@@ -145,7 +142,7 @@
     <div class="bg-zinc-900 rounded-3xl w-full max-w-lg max-h-[92vh] flex flex-col overflow-hidden">
       <div class="px-6 py-4 border-b flex justify-between items-center">
         <h3 class="text-2xl font-bold">إكمال الطلب</h3>
-        <button onclick="closeCheckout()" class="text-4xl text-gray-400">✕</button>
+        <button onclick="closeCheckout()" class="text-4xl text-gray-400 hover:text-white">✕</button>
       </div>
       
       <div class="flex-1 overflow-y-auto p-6">
@@ -163,22 +160,18 @@
               <label class="block mb-2 text-gray-400">عنوان التوصيل</label>
               <textarea id="address" rows="4" required class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4"></textarea>
             </div>
-
             <div>
               <label class="block mb-2 text-gray-400">طريقة الدفع</label>
               <div class="space-y-3">
                 <label class="flex items-center gap-3 bg-zinc-800 p-4 rounded-2xl cursor-pointer">
-                  <input type="radio" name="payment" value="cash" checked onchange="toggleCliqSection()">
-                  <span>دفع عند الاستلام (كاش)</span>
+                  <input type="radio" name="payment" value="cash" checked onchange="toggleCliqSection()"> دفع عند الاستلام (كاش)
                 </label>
                 <label class="flex items-center gap-3 bg-zinc-800 p-4 rounded-2xl cursor-pointer">
-                  <input type="radio" name="payment" value="cliq" onchange="toggleCliqSection()">
-                  <span>دفع إلكتروني عبر CliQ</span>
+                  <input type="radio" name="payment" value="cliq" onchange="toggleCliqSection()"> دفع إلكتروني عبر CliQ
                 </label>
               </div>
             </div>
 
-            <!-- CliQ Section -->
             <div id="cliq-section" class="hidden bg-gradient-to-br from-green-950 to-zinc-900 border border-green-600 rounded-3xl p-6">
               <h4 class="font-bold text-xl mb-4 flex items-center gap-2">
                 <i class="fas fa-qrcode"></i> الدفع عبر CliQ
@@ -218,7 +211,7 @@
   <!-- Contact -->
   <section id="contact" class="bg-black py-20 border-t border-green-500/30">
     <div class="max-w-4xl mx-auto px-5 text-center">
-      <h2 class="text-5xl font-bold sporty-font mb-4 neon-green">تواصل معنا</h2>
+      <h2 class="text-5xl font-bold sporty-font mb-4">تواصل معنا</h2>
       <div class="grid md:grid-cols-2 gap-10 mt-12">
         <div class="bg-zinc-900 rounded-3xl p-10">
           <i class="fas fa-phone-volume text-5xl text-green-500 mb-6"></i>
@@ -241,8 +234,7 @@
     let currentImageIndex = 0;
     let currentFilter = 'all';
 
-    const FORMSPREE_URL = "https://formspree.io/f/xnjrzzlo";
-
+    const WEB3FORMS_KEY = "0462819f-8f80-4761-864c-62424a1e9917";
 
     const products = [
       { id:1, category:"worldcup", name: "تيشرت اسبانيا الاحتياطي 2026", oldPrice: 18, price: 16, desc: "نسخة لاعبين", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/cCLdW5SL/spania.jpg","https://i.postimg.cc/0y3sxD1b/spain2.jpg","https://i.postimg.cc/x8gwZbPS/spain3.jpg"] },
@@ -257,7 +249,7 @@
       { id:10, category:"clubs", name: "تيشرت برشلونة الاساسي لموسم 25/26", oldPrice: 15, price: 13, desc: "نسخة اللاعبين", availableSizes: ["L","XL","XXL"], images: ["https://i.postimg.cc/fRyqvRgZ/bbarcaa.jpg","https://i.postimg.cc/d0TWzSFY/bbarcaa-1.jpg","https://i.postimg.cc/prPq5Wng/bbarcaa-2.jpg","https://i.postimg.cc/hPP2SGnb/bbarcaa-3.jpg"] },
       { id:11, category:"classic", name: "تيشرت الارجنتين 1986", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/Y0q8H6Gs/argantin1986.jpg","https://i.postimg.cc/7h9PWTpr/argantin-K2.jpg","https://i.postimg.cc/GmH3XtKz/argantin-K3.jpg","https://i.postimg.cc/8cZDHgr9/argantin-K4.jpg"] },
       { id:12, category:"classic", name: "تيشرت المانيا 2014", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/rmqvYYcq/germani-2014-2015.jpg","https://i.postimg.cc/2yKMykWY/Germani-K3.jpg","https://i.postimg.cc/TwkHNdCr/Germani-K4.jpg","https://i.postimg.cc/cHJF3q0v/Germani-K2.jpg"] },
-      { id:13, category:"classic", name: "تيشرت البرازيل 2002", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"],  images: ["https://i.postimg.cc/1RkbktyK/brazil2002.jpg","https://i.postimg.cc/7YrQBWNM/Brazil-K.jpg","https://i.postimg.cc/zGJ2NH6Q/Brazil-K2.jpg","https://i.postimg.cc/DZbB6rJD/Brazil-K3.jpg"] },
+      { id:13, category:"classic", name: "تيشرت البرازيل 2002", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/1RkbktyK/brazil2002.jpg","https://i.postimg.cc/7YrQBWNM/Brazil-K.jpg","https://i.postimg.cc/zGJ2NH6Q/Brazil-K2.jpg","https://i.postimg.cc/DZbB6rJD/Brazil-K3.jpg"] },
       { id:14, category:"classic", name: "تيشرت اسبانيا 2010", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/T370X7ry/Spain2010.jpg","https://i.postimg.cc/PJyZQJyf/Spain-K.jpg","https://i.postimg.cc/HnNWmCsL/Spain-K3.jpg"] },
     ];
 
@@ -285,7 +277,8 @@
     function filterCategory(category) {
       currentFilter = category;
       document.querySelectorAll('#category-tabs button').forEach(btn => btn.classList.remove('tab-active'));
-      document.getElementById('tab-' + category).classList.add('tab-active');
+      if (category === 'all') document.getElementById('tab-all').classList.add('tab-active');
+      else document.getElementById('tab-' + category).classList.add('tab-active');
 
       if (category === 'all') renderProducts(products);
       else renderProducts(products.filter(p => p.category === category));
@@ -300,14 +293,11 @@
       document.getElementById('modal-desc').textContent = product.desc;
       document.getElementById('modal-price').innerHTML = `
         <span class="old-price text-xl">${product.oldPrice} دينار</span>
-        <span class="text-4xl font-bold text-green-400 ml-3">${product.price} دينار</span>
-      `;
+        <span class="text-4xl font-bold text-green-400 ml-3">${product.price} دينار</span>`;
 
-      // Reset print
       document.getElementById('custom-print').checked = false;
       document.getElementById('print-fields').classList.add('hidden');
 
-      // Fill sizes
       const select = document.getElementById('size-select');
       select.innerHTML = '';
       const allSizes = ["S","M","L","XL","XXL"];
@@ -328,7 +318,6 @@
         thumb.onclick = () => { currentImageIndex = i; updateMainImage(); };
         thumbs.appendChild(thumb);
       });
-
       updateMainImage();
       document.getElementById('product-modal').classList.remove('hidden');
     }
@@ -338,13 +327,13 @@
       document.querySelectorAll('#thumbnails img').forEach((t, i) => t.classList.toggle('border-green-500', i === currentImageIndex));
     }
 
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+    }
+
     function togglePrintFields() {
       const checked = document.getElementById('custom-print').checked;
       document.getElementById('print-fields').classList.toggle('hidden', !checked);
-    }
-
-    function closeProductModal() {
-      document.getElementById('product-modal').classList.add('hidden');
     }
 
     function addCurrentToCart() {
@@ -357,7 +346,6 @@
 
       let finalPrice = currentProduct.price;
       let customization = '';
-
       if (wantPrint) {
         finalPrice += 4;
         customization = `اسم: ${printName || 'غير محدد'} | رقم: ${printNumber || 'غير محدد'}`;
@@ -435,7 +423,7 @@
     function submitOrderConfirm() {
       const payment = document.querySelector('input[name="payment"]:checked').value;
       if (payment === 'cliq') {
-        if (confirm(" هل أكملت عملية الدفع عبر CliQ وجاهز لإرسال صورة الإيصال؟")) {
+        if (confirm("هل أكملت الدفع عبر CliQ وجاهز لإرسال صورة الإيصال؟")) {
           document.getElementById('checkout-form').dispatchEvent(new Event('submit'));
         }
       } else {
@@ -445,10 +433,53 @@
 
     function submitOrder(e) {
       e.preventDefault();
-      closeCheckout();
-      document.getElementById('success-modal').classList.remove('hidden');
-      cart = [];
-      updateCartCount();
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const paymentType = document.querySelector('input[name="payment"]:checked').value;
+
+      if (!name || !phone || !address) {
+        alert("يرجى ملء جميع الحقول المطلوبة");
+        return;
+      }
+
+      const total = cart.reduce((sum, item) => sum + item.finalPrice * item.quantity, 0);
+
+      const formData = new FormData();
+      formData.append("access_key", WEB3FORMS_KEY);
+      formData.append("subject", `طلب جديد - ${name}`);
+      formData.append("name", name);
+      formData.append("phone", phone);
+      formData.append("address", address);
+      formData.append("payment", paymentType === "cash" ? "دفع عند الاستلام" : "CliQ");
+      formData.append("total", total + " دينار");
+      formData.append("items", cart.map(item => 
+        `${item.name} - مقاس ${item.size} - ${item.quantity} قطع - ${item.finalPrice} د.ا\n` +
+        `${item.wantPrint ? `طباعة: ${item.printName} | رقم ${item.printNumber}` : 'بدون طباعة'}`
+      ).join("\n\n"));
+
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          closeCheckout();
+          const successMsg = paymentType === "cash" 
+            ? "سيتم التواصل معك قريباً لتأكيد الطلب" 
+            : "شكراً! يرجى إرسال صورة الإيصال على الواتساب 0776877198";
+          document.getElementById('success-text').innerHTML = successMsg;
+          document.getElementById('success-modal').classList.remove('hidden');
+          
+          cart = [];
+          updateCartCount();
+        } else {
+          alert("حدث خطأ أثناء الإرسال");
+        }
+      })
+      .catch(() => alert("حدث خطأ في الاتصال، تحقق من الإنترنت وحاول مرة أخرى"));
     }
 
     // تشغيل الموقع
