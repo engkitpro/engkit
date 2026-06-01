@@ -21,12 +21,14 @@
     gtag('js', new Date());
     gtag('config', 'G-MB3LGY4CG2');
   </script>
+
   <style>
     .sporty-font { font-family: 'Impact', 'Arial Black', sans-serif; letter-spacing: -1px; }
     .product-card:hover { transform: translateY(-10px) scale(1.03); transition: all 0.4s; }
     .old-price { text-decoration: line-through; color: #9ca3af; }
     .tab-active { border-bottom: 4px solid #22c55e; color: #22c55e; font-weight: bold; }
     option:disabled { color: #6b7280; background-color: #374151; font-style: italic; }
+    video, #main-image { width: 100%; border-radius: 16px; background: #000; }
   </style>
 </head>
 <body class="bg-zinc-950 text-white">
@@ -53,7 +55,7 @@
            style="background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), url('https://i.postimg.cc/RFdw8cWr/mlʿb.webp');">
     <div class="max-w-5xl mx-auto px-6 text-center">
       <h2 class="text-6xl md:text-7xl font-bold sporty-font leading-none mb-6">KIT UP LIKE A PRO</h2>
-      <p class="text-2xl text-green-400 mb-4">عروض خاصة حتى 31/5/2026 🔥</p>
+      <p class="text-2xl text-green-400 mb-4">اقوى تشكيلة وأفضل جودة</p>
       <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" 
               class="bg-green-500 text-black font-bold px-12 py-5 rounded-2xl text-xl hover:bg-green-400">
         تسوق الآن ⚽
@@ -76,21 +78,25 @@
   <!-- Products -->
   <section id="products" class="max-w-7xl mx-auto px-5 py-20">
     <h2 class="text-5xl font-bold text-center sporty-font mb-4">تشكيلتنا</h2>
-    <p class="text-center text-green-400 mb-10">العروض سارية حتى 31/5/2026</p>
+    <p class="text-center text-green-400 mb-10"></p>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="products-grid"></div>
   </section>
 
   <!-- Product Detail Modal -->
   <div id="product-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[90] p-4">
     <div class="bg-zinc-900 rounded-3xl w-full max-w-lg max-h-[95vh] flex flex-col overflow-hidden">
-      <div class="px-6 py-5 border-b border-zinc-700 flex justify-between items-center">
+      <div class="px-6 py-5 border-b flex justify-between items-center">
         <h3 id="modal-title" class="text-xl font-bold sporty-font"></h3>
         <button onclick="closeProductModal()" class="text-4xl text-gray-400 hover:text-white">✕</button>
       </div>
       <div class="flex-1 overflow-y-auto p-6 space-y-6">
+        
+        <!-- Media Container -->
         <div class="bg-black rounded-2xl p-4">
-          <img id="main-image" class="w-full max-h-[260px] object-contain mx-auto" alt="">
+          <video id="main-video" class="w-full rounded-2xl hidden" controls loop muted playsinline></video>
+          <img id="main-image" class="w-full rounded-2xl hidden" alt="Product Image">
         </div>
+
         <div class="grid grid-cols-4 gap-3" id="thumbnails"></div>
         <p id="modal-desc" class="text-gray-400 text-base"></p>
         
@@ -99,6 +105,7 @@
           <span id="modal-price" class="text-4xl font-bold text-green-400"></span>
         </div>
 
+        <!-- طباعة -->
         <div class="bg-zinc-800 p-5 rounded-2xl">
           <label class="flex items-center gap-3 cursor-pointer">
             <input type="checkbox" id="custom-print" onchange="togglePrintFields()" class="w-5 h-5 accent-green-500">
@@ -132,8 +139,7 @@
       </div>
     </div>
   </div>
-
-  <!-- Cart Sidebar -->
+<!-- Cart Sidebar -->
   <div id="cart-sidebar" class="hidden fixed top-0 right-0 h-full w-full md:w-96 bg-zinc-900 shadow-2xl z-[100] overflow-y-auto">
     <div class="p-6">
       <div class="flex justify-between mb-6">
@@ -241,6 +247,8 @@
       </div>
     </div>
   </section>
+  <!-- Cart Sidebar, Checkout, Success, Contact (نفس الكود) -->
+  <!-- ... (Cart Sidebar + Checkout + Success + Contact) ... -->
 
   <script>
     let cart = [];
@@ -249,24 +257,31 @@
     let currentImageIndex = 0;
     let currentFilter = 'all';
 
-    const WEB3FORMS_KEY = "0462819f-8f80-4761-864c-62424a1e9917";
+        const WEB3FORMS_KEY = "0462819f-8f80-4761-864c-62424a1e9917";
 
     const products = [
-      { id:1, category:"worldcup", name: "تيشرت اسبانيا الاحتياطي 2026", oldPrice: 18, price: 16, desc: "نسخة لاعبين", availableSizes: ["S","M","XL","XXL"], images: ["https://i.postimg.cc/cCLdW5SL/spania.jpg","https://i.postimg.cc/0y3sxD1b/spain2.jpg","https://i.postimg.cc/x8gwZbPS/spain3.jpg"] },
-      { id:2, category:"worldcup", name: "تيشرت الارجنتين الاحتياطي 2026", oldPrice: 18, price: 16, desc: "نسخة لاعبين", availableSizes: ["S","M","L","XL"], images: ["https://i.postimg.cc/VL5zHT4Y/argantin.jpg","https://i.postimg.cc/L8ZHJNT3/argentina2.jpg","https://i.postimg.cc/SRs4krRr/argentina3.jpg"] },
-      { id:3, category:"worldcup", name: "تيشرت البرازيل الاساسي 2026", oldPrice: 18, price: 16, desc: "نسخة اللاعبين", availableSizes: ["M","XL"], images: ["https://i.postimg.cc/WzHsysCK/braziil.jpg","https://i.postimg.cc/TPJf6VBt/brazil2.jpg","https://i.postimg.cc/BQf3Xwsw/photo-5229065899577384343-w.jpg","https://i.postimg.cc/RZP2QPrw/photo-5229065899577384339-w.jpg"] },
-      { id:4, category:"worldcup", name: "تيشرت البرتغال الاساسي 2026", oldPrice: 18, price: 16, desc: "نسخة اللاعبين", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/7LrDhL4T/bortogal.jpg","https://i.postimg.cc/XqCRj7dr/portugal2.jpg","https://i.postimg.cc/sD3mDgYV/portugal3.jpg"] },
-      { id:5, category:"worldcup", name: "تيشرت المانيا الاساسي 2026", oldPrice: 18, price: 16, desc: "نسخة اللاعبين", availableSizes: ["S","M","L"], images: ["https://i.postimg.cc/XJQ0scCn/germanny.jpg","https://i.postimg.cc/d1tQVdVV/germany2.jpg", "https://i.postimg.cc/6Q6TyFHf/germany3.jpg"] },
-      { id:6, category:"worldcup", name: "تيشرت فرنسا الاساسي 2026", oldPrice: 18, price: 16, desc: "نسخة اللاعبين", availableSizes: ["S","M","L","XL"], images: ["https://i.postimg.cc/ZYsS3Hmw/faranca.jpg","https://i.postimg.cc/k45YRTb0/france2.jpg","https://i.postimg.cc/nc7xLLZm/france3.jpg"] },
-      { id:7, category:"clubs", name: "تيشرت برشلونة الذكرى 125", oldPrice: 15, price: 13, desc: "نسخة اللاعبين", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/YCPqCjmP/barca.jpg","https://i.postimg.cc/vT2CtxyC/barca4.jpg","https://i.postimg.cc/W4mKfHjM/barca3.jpg","https://i.postimg.cc/Tw7tz8sb/barca2.jpg"] },
-      { id:8, category:"clubs", name: "تيشرت ريال مدريد 25/26", oldPrice: 15, price: 13, desc: "نسخة اللاعبين", availableSizes: ["L"], images: ["https://i.postimg.cc/yNrf54t0/madrid.jpg","https://i.postimg.cc/jSxZSSr2/madrid2.jpg","https://i.postimg.cc/057fGwkY/madrid4.jpg","https://i.postimg.cc/52Kq953r/madrid3.jpg"] },
-      { id:9, category:"clubs", name: "تيشرت برشلونة النسخة 25/26", oldPrice: 15, price: 13, desc: "نسخة خاصة", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/L6bnnxcP/barcaa.jpg","https://i.postimg.cc/pTRdg4jR/barcaa-2.jpg","https://i.postimg.cc/XY57X4c4/barcaa-3.jpg","https://i.postimg.cc/VkXmm4mP/barcaa-4.jpg"] },
-      { id:10, category:"clubs", name: "تيشرت برشلونة الاساسي لموسم 25/26", oldPrice: 15, price: 13, desc: "نسخة اللاعبين", availableSizes: ["L","XL","XXL"], images: ["https://i.postimg.cc/fRyqvRgZ/bbarcaa.jpg","https://i.postimg.cc/d0TWzSFY/bbarcaa-1.jpg","https://i.postimg.cc/prPq5Wng/bbarcaa-2.jpg","https://i.postimg.cc/hPP2SGnb/bbarcaa-3.jpg"] },
-      { id:11, category:"classic", name: "تيشرت الارجنتين 1986", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/Y0q8H6Gs/argantin1986.jpg","https://i.postimg.cc/7h9PWTpr/argantin-K2.jpg","https://i.postimg.cc/GmH3XtKz/argantin-K3.jpg","https://i.postimg.cc/8cZDHgr9/argantin-K4.jpg"] },
-      { id:12, category:"classic", name: "تيشرت المانيا 2014", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/rmqvYYcq/germani-2014-2015.jpg","https://i.postimg.cc/2yKMykWY/Germani-K3.jpg","https://i.postimg.cc/TwkHNdCr/Germani-K4.jpg","https://i.postimg.cc/cHJF3q0v/Germani-K2.jpg"] },
-      { id:13, category:"classic", name: "تيشرت البرازيل 2002", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/1RkbktyK/brazil2002.jpg","https://i.postimg.cc/7YrQBWNM/Brazil-K.jpg","https://i.postimg.cc/zGJ2NH6Q/Brazil-K2.jpg","https://i.postimg.cc/DZbB6rJD/Brazil-K3.jpg"] },
-      { id:14, category:"classic", name: "تيشرت اسبانيا 2010", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/T370X7ry/Spain2010.jpg","https://i.postimg.cc/PJyZQJyf/Spain-K.jpg","https://i.postimg.cc/HnNWmCsL/Spain-K3.jpg"] },
+         { id:1, category:"worldcup", name: "تيشرت البرازيل الاساسي 2026", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["M","XL"], images: ["https://i.postimg.cc/WzHsysCK/braziil.jpg","https://i.postimg.cc/TPJf6VBt/brazil2.jpg","https://i.postimg.cc/BQf3Xwsw/photo-5229065899577384343-w.jpg","https://i.postimg.cc/RZP2QPrw/photo-5229065899577384339-w.jpg"] },
+      { id:2, category:"worldcup", name: "تيشرت البرتغال الاساسي 2026", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/7LrDhL4T/bortogal.jpg","https://i.postimg.cc/XqCRj7dr/portugal2.jpg","https://i.postimg.cc/sD3mDgYV/portugal3.jpg"] },
+      { id:3, category:"worldcup", name: "تيشرت المانيا الاساسي 2026", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["S","M","L"], images: ["https://i.postimg.cc/XJQ0scCn/germanny.jpg","https://i.postimg.cc/d1tQVdVV/germany2.jpg", "https://i.postimg.cc/6Q6TyFHf/germany3.jpg"] },
+      { id:4, category:"worldcup", name: "تيشرت فرنسا الاساسي 2026", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["S","M","L","XL"], images: ["https://i.postimg.cc/ZYsS3Hmw/faranca.jpg","https://i.postimg.cc/k45YRTb0/france2.jpg","https://i.postimg.cc/nc7xLLZm/france3.jpg"] },
+      { id:5, category:"worldcup", name: "تيشرت الارجنين الاساسي 2026", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["S","M","L","XL"], images: ["https://i.postimg.cc/rs0g7Pm7/photo-5830248363377495632-y.jpg"], video: "https://files.catbox.moe/e4t9jz.MP4" },
+      { id:6, category:"worldcup", name: "تيشرت هولندا الاساسي 2026", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["M","L","XL","XXL"], images: ["https://i.postimg.cc/9XYGQV3D/photo-5830248363377495631-y.jpg"], video: "https://files.catbox.moe/ur1n7x.MP4" },
+        
+    { id:7, category:"worldcup", name: "تيشرت اسبانيا الاحتياطي 2026", oldPrice: 25, price: 20, desc: "نسخة لاعبين", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/cCLdW5SL/spania.jpg","https://i.postimg.cc/0y3sxD1b/spain2.jpg","https://i.postimg.cc/x8gwZbPS/spain3.jpg"] },
+      { id:8, category:"worldcup", name: "تيشرت الارجنتين الاحتياطي 2026", oldPrice: 25, price: 20, desc: "نسخة لاعبين", availableSizes: ["S","M","L","XL"], images: ["https://i.postimg.cc/VL5zHT4Y/argantin.jpg"], video: "https://drive.google.com/file/d/1IL-j20HEcXBB4KfSH5ekB5ckJYx_c-g8/view?usp=drive_link" },
+ { id:9, category:"clubs", name: "تيشرت برشلونة الذكرى 125", oldPrice: 15, price: 13, desc: "نسخة اللاعبين", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/YCPqCjmP/barca.jpg","https://i.postimg.cc/vT2CtxyC/barca4.jpg","https://i.postimg.cc/W4mKfHjM/barca3.jpg","https://i.postimg.cc/Tw7tz8sb/barca2.jpg"] },
+      { id:10, category:"clubs", name: "تيشرت ريال مدريد 25/26", oldPrice: 15, price: 13, desc: "نسخة اللاعبين", availableSizes: ["L"], images: ["https://i.postimg.cc/yNrf54t0/madrid.jpg","https://i.postimg.cc/jSxZSSr2/madrid2.jpg","https://i.postimg.cc/057fGwkY/madrid4.jpg","https://i.postimg.cc/52Kq953r/madrid3.jpg"] },
+      { id:11, category:"clubs", name: "تيشرت برشلونة النسخة 25/26", oldPrice: 15, price: 13, desc: "نسخة خاصة", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/L6bnnxcP/barcaa.jpg","https://i.postimg.cc/pTRdg4jR/barcaa-2.jpg","https://i.postimg.cc/XY57X4c4/barcaa-3.jpg","https://i.postimg.cc/VkXmm4mP/barcaa-4.jpg"] },
+      { id:12, category:"clubs", name: "تيشرت برشلونة الاساسي لموسم 25/26", oldPrice: 15, price: 13, desc: "نسخة اللاعبين", availableSizes: ["L","XL","XXL"], images: ["https://i.postimg.cc/fRyqvRgZ/bbarcaa.jpg","https://i.postimg.cc/d0TWzSFY/bbarcaa-1.jpg","https://i.postimg.cc/prPq5Wng/bbarcaa-2.jpg","https://i.postimg.cc/hPP2SGnb/bbarcaa-3.jpg"] },
+      { id:13, category:"clubs", name: "تيشرت برشلونة الاحتياطي(ترافيس سكوت) 24/25", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/mkmzNLRY/photo-5830248363377495657-y.jpg"] },
+
+      { id:14, category:"classic", name: "تيشرت الارجنتين 1986", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/Y0q8H6Gs/argantin1986.jpg","https://i.postimg.cc/7h9PWTpr/argantin-K2.jpg","https://i.postimg.cc/GmH3XtKz/argantin-K3.jpg","https://i.postimg.cc/8cZDHgr9/argantin-K4.jpg"] },
+      { id:15, category:"classic", name: "تيشرت المانيا 2014", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/rmqvYYcq/germani-2014-2015.jpg","https://i.postimg.cc/2yKMykWY/Germani-K3.jpg","https://i.postimg.cc/TwkHNdCr/Germani-K4.jpg","https://i.postimg.cc/cHJF3q0v/Germani-K2.jpg"] },
+      { id:16, category:"classic", name: "تيشرت البرازيل 2002", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/1RkbktyK/brazil2002.jpg","https://i.postimg.cc/7YrQBWNM/Brazil-K.jpg","https://i.postimg.cc/zGJ2NH6Q/Brazil-K2.jpg","https://i.postimg.cc/DZbB6rJD/Brazil-K3.jpg"] },
+      { id:17, category:"classic", name: "تيشرت اسبانيا 2010", oldPrice: 20, price: 18, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/T370X7ry/Spain2010.jpg","https://i.postimg.cc/PJyZQJyf/Spain-K.jpg","https://i.postimg.cc/HnNWmCsL/Spain-K3.jpg"] },
     ];
+
+
 
     function renderProducts(filteredProducts) {
       const grid = document.getElementById('products-grid');
@@ -289,7 +304,7 @@
       });
     }
 
-    function filterCategory(category) {
+     function filterCategory(category) {
       currentFilter = category;
       document.querySelectorAll('#category-tabs button').forEach(btn => btn.classList.remove('tab-active'));
       if (category === 'all') document.getElementById('tab-all').classList.add('tab-active');
@@ -301,11 +316,11 @@
 
     function showProductModal(product) {
       currentProduct = product;
-      currentImages = product.images;
+      currentImages = product.images || [];
       currentImageIndex = 0;
 
       document.getElementById('modal-title').textContent = product.name;
-      document.getElementById('modal-desc').textContent = product.desc;
+      document.getElementById('modal-desc').textContent = product.desc || "";
       document.getElementById('modal-price').innerHTML = `
         <span class="old-price text-xl">${product.oldPrice} دينار</span>
         <span class="text-4xl font-bold text-green-400 ml-3">${product.price} دينار</span>`;
@@ -313,39 +328,75 @@
       document.getElementById('custom-print').checked = false;
       document.getElementById('print-fields').classList.add('hidden');
 
-      const select = document.getElementById('size-select');
+      const video = document.getElementById('main-video');
+      const image = document.getElementById('main-image');
+
+      if (product.video) {
+        video.src = product.video;
+        video.classList.remove('hidden');
+        image.classList.add('hidden');
+        video.load();
+      } else {
+        video.classList.add('hidden');
+        image.classList.remove('hidden');
+        image.src = currentImages[0] || '';
+      }
+            const select = document.getElementById('size-select');
       select.innerHTML = '';
-      const allSizes = ["S","M","L","XL","XXL"];
-      allSizes.forEach(size => {
+
+      const defaultSizes = ["S", "M", "L", "XL", "XXL"];
+      const available = product.availableSizes || defaultSizes; // إذا ما فيه availableSizes يعرض الكل
+
+      defaultSizes.forEach(size => {
         const option = document.createElement('option');
         option.value = size;
         option.textContent = size;
-        if (!product.availableSizes.includes(size)) option.disabled = true;
+        if (!available.includes(size)) {
+          option.disabled = true;
+          option.textContent = size + " (غير متوفر)";
+        }
         select.appendChild(option);
       });
 
+      // Thumbnails
       const thumbs = document.getElementById('thumbnails');
       thumbs.innerHTML = '';
       currentImages.forEach((src, i) => {
         const thumb = document.createElement('img');
         thumb.src = src;
         thumb.className = `w-full aspect-square object-cover rounded-2xl cursor-pointer border-2 transition-all ${i===0 ? 'border-green-500' : 'border-transparent'}`;
-        thumb.onclick = () => { currentImageIndex = i; updateMainImage(); };
+        thumb.onclick = () => {
+          currentImageIndex = i;
+          updateMainImage();
+        };
         thumbs.appendChild(thumb);
       });
-      updateMainImage();
+
       document.getElementById('product-modal').classList.remove('hidden');
     }
 
     function updateMainImage() {
-      document.getElementById('main-image').src = currentImages[currentImageIndex];
-      document.querySelectorAll('#thumbnails img').forEach((t, i) => t.classList.toggle('border-green-500', i === currentImageIndex));
+      const image = document.getElementById('main-image');
+      const video = document.getElementById('main-video');
+
+      if (!video.classList.contains('hidden')) return; // إذا كان الفيديو ظاهر، لا نغير الصورة
+
+      image.src = currentImages[currentImageIndex];
+
+      // تحديث الحدود (الـ active)
+      document.querySelectorAll('#thumbnails img').forEach((thumb, i) => {
+        thumb.classList.toggle('border-green-500', i === currentImageIndex);
+      });
     }
 
     function closeProductModal() {
+      const video = document.getElementById('main-video');
+      video.pause();
+      video.src = '';
       document.getElementById('product-modal').classList.add('hidden');
     }
 
+    // باقي الدوال (مباشرة من كودك)
     function togglePrintFields() {
       const checked = document.getElementById('custom-print').checked;
       document.getElementById('print-fields').classList.toggle('hidden', !checked);
@@ -360,11 +411,7 @@
       const printNumber = document.getElementById('print-number').value.trim();
 
       let finalPrice = currentProduct.price;
-      let customization = '';
-      if (wantPrint) {
-        finalPrice += 4;
-        customization = `اسم: ${printName || 'غير محدد'} | رقم: ${printNumber || 'غير محدد'}`;
-      }
+      if (wantPrint) finalPrice += 4;
 
       cart.push({
         ...currentProduct,
@@ -373,8 +420,7 @@
         finalPrice,
         wantPrint,
         printName: printName || '-',
-        printNumber: printNumber || '-',
-        customization
+        printNumber: printNumber || '-'
       });
 
       updateCartCount();
@@ -393,8 +439,7 @@
       let total = 0;
 
       cart.forEach((item, index) => {
-        const itemTotal = item.finalPrice * item.quantity;
-        total += itemTotal;
+        total += item.finalPrice * item.quantity;
         const div = document.createElement('div');
         div.className = "flex gap-4 bg-zinc-800 p-4 rounded-2xl";
         div.innerHTML = `
@@ -402,7 +447,7 @@
           <div class="flex-1">
             <h4 class="font-medium">${item.name}</h4>
             <p class="text-green-400">${item.finalPrice} د.ا × ${item.quantity} • مقاس ${item.size}</p>
-            ${item.wantPrint ? `<p class="text-orange-400 text-sm">🖨️ ${item.customization}</p>` : ''}
+            ${item.wantPrint ? `<p class="text-orange-400 text-sm">طباعة: ${item.printName} | ${item.printNumber}</p>` : ''}
             <button onclick="removeFromCart(${index})" class="text-red-500 text-sm mt-2">حذف</button>
           </div>
         `;
@@ -423,19 +468,24 @@
       if (cart.length === 0) return alert("السلة فارغة");
       document.getElementById('cart-sidebar').classList.add('hidden');
       document.getElementById('checkout-modal').classList.remove('hidden');
-      toggleCliqSection();
+          toggleCliqSection();
+
     }
 
     function closeCheckout() {
       document.getElementById('checkout-modal').classList.add('hidden');
     }
 
+    function submitOrderConfirm() {
+      document.getElementById('checkout-form').dispatchEvent(new Event('submit'));
+    }
+    
     function toggleCliqSection() {
       const isCliq = document.querySelector('input[name="payment"]:checked').value === 'cliq';
       document.getElementById('cliq-section').classList.toggle('hidden', !isCliq);
     }
 
-    function submitOrderConfirm() {
+        function submitOrderConfirm() {
       const payment = document.querySelector('input[name="payment"]:checked').value;
       if (payment === 'cliq') {
         if (confirm("هل أكملت الدفع عبر CliQ وجاهز لإرسال صورة الإيصال؟")) {
@@ -448,20 +498,19 @@
 
     function submitOrder(e) {
       e.preventDefault();
-
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const address = document.getElementById('address').value.trim();
       const paymentType = document.querySelector('input[name="payment"]:checked').value;
 
       if (!name || !phone || !address) {
-        alert("يرجى ملء جميع الحقول المطلوبة");
+        alert("يرجى ملء جميع الحقول");
         return;
       }
 
       const total = cart.reduce((sum, item) => sum + item.finalPrice * item.quantity, 0);
 
-      const formData = new FormData();
+     const formData = new FormData();
       formData.append("access_key", WEB3FORMS_KEY);
       formData.append("subject", `طلب جديد - ${name}`);
       formData.append("name", name);
