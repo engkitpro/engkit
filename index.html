@@ -171,6 +171,7 @@
             <input type="checkbox" id="custom-print" onchange="togglePrintFields()" class="w-5 h-5 accent-green-500">
             <span class="font-bold">أريد طباعة اسم + رقم على التيشيرت <span class="text-green-400">(+4 دنانير)</span></span>
           </label>
+          
           <div id="print-fields" class="hidden mt-4 space-y-4">
             <div>
               <label class="block mb-1 text-sm text-gray-400">الاسم</label>
@@ -180,6 +181,7 @@
               <label class="block mb-1 text-sm text-gray-400">رقم اللاعب</label>
               <input type="text" id="print-number" placeholder="مثال: 10" maxlength="2" class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4">
             </div>
+            
           </div>
         </div>
 
@@ -188,7 +190,7 @@
           <select id="size-select" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4"></select>
         </div>
 
-        <div>
+             <div id="quantity-section">
           <label class="block mb-2 text-sm text-gray-400">الكمية</label>
           <input type="number" id="quantity-select" value="1" min="1" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4">
         </div>
@@ -341,8 +343,8 @@
       { id:16, category:"classic", name: "تيشرت البرازيل 2002", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/1RkbktyK/brazil2002.jpg","https://i.postimg.cc/7YrQBWNM/Brazil-K.jpg","https://i.postimg.cc/zGJ2NH6Q/Brazil-K2.jpg","https://i.postimg.cc/DZbB6rJD/Brazil-K3.jpg"] },
       { id:17, category:"classic", name: "تيشرت اسبانيا 2010", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/T370X7ry/Spain2010.jpg","https://i.postimg.cc/PJyZQJyf/Spain-K.jpg","https://i.postimg.cc/HnNWmCsL/Spain-K3.jpg"] },
       { id: 18, category: "jordan", name: "تيشرت المنتخب الأردني 2026 - النسخة الأساسية",desc: "نسخة اللاعبين", oldPrice: 28, price: 25, desc: "قريباً - حجز مسبق", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/nzFTpWgd/photo-5834837763566538638-y.jpg"], isJordan: true },
-      { id: 19, category: "jordan", name: "تيشرت المنتخب الأردني 2026 -احتياطي",desc: "النسخة الاحتياطية", oldPrice: 28, price: 25, desc: "قريباً - حجز مسبق", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/Bn2CDsGr/photo-5834837763566538637-y.jpg"], isJordan: true },
-      { id: 20, category: "jordan", name: "تيشرت المنتخب الأردني 2026 - ثالث",desc: "نسخة اللاعبين", oldPrice: 30, price: 25, desc: "قريباً - حجز مسبق", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/8cFRCg4Q/photo-5834837763566538636-y.jpg"], isJordan: true },
+      { id: 19, category: "jordan", name: "تيشرت المنتخب الأردني 2026 - لون ابيض",desc: "النسخة الاحتياطية", oldPrice: 28, price: 25, desc: "قريباً - حجز مسبق", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/Bn2CDsGr/photo-5834837763566538637-y.jpg"], isJordan: true },
+      { id: 20, category: "jordan", name: "تيشرت المنتخب الأردني 2026 - لون اسود",desc: "نسخة اللاعبين", oldPrice: 30, price: 25, desc: "قريباً - حجز مسبق", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/8cFRCg4Q/photo-5834837763566538636-y.jpg"], isJordan: true },
     ];
 
 function renderProducts(filteredProducts) {
@@ -421,12 +423,20 @@ document.getElementById('custom-print').checked = false;
 document.getElementById('print-fields').classList.add('hidden');
 
 const printSection = document.getElementById('print-section');
+const quantitySection = document.getElementById('quantity-section');
+
 
 if (product.category === 'jordan') {
     printSection.style.display = 'none';
+        quantitySection.style.display = 'none';
+
 } else {
     printSection.style.display = 'block';
+        quantitySection.style.display = 'block';
+
 }
+
+
   // الصورة أو الفيديو
   const video = document.getElementById('main-video');
   const image = document.getElementById('main-image');
@@ -658,6 +668,7 @@ if (product.category === 'jordan') {
           <p class="text-green-400 text-3xl font-bold text-center">${product.price} دينار</p>
 
           <div>
+            
             <label class="block mb-1 text-gray-400">الاسم الكامل</label>
             <input type="text" id="pre-name" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4" placeholder="اسمك الكامل">
           </div>
@@ -665,6 +676,23 @@ if (product.category === 'jordan') {
             <label class="block mb-1 text-gray-400">رقم الواتساب</label>
             <input type="tel" id="pre-phone" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4" placeholder="07xxxxxxxx">
           </div>
+
+          <div>
+
+
+  <label class="block mb-1 text-gray-400">الكمية</label>
+  <input
+    type="number"
+    id="pre-quantity"
+    value="1"
+    min="1"
+    oninput="updateJordanPrice()"
+    class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4">
+</div>
+
+<p class="text-center text-green-400 text-2xl font-bold">
+  المجموع: <span id="jordan-total">25</span> دينار
+</p>
 
           <button onclick="submitPreorder(${product.id}, '${product.name}')" 
                   class="w-full bg-green-500 hover:bg-green-400 text-black font-bold py-6 rounded-2xl text-lg mt-4">
@@ -683,6 +711,8 @@ if (product.category === 'jordan') {
 function submitPreorder(productId, productName) {
   const name = document.getElementById('pre-name').value.trim();
   const phone = document.getElementById('pre-phone').value.trim();
+  const quantity = parseInt(document.getElementById('pre-quantity').value) || 1;
+const totalPrice = quantity * 25;
 
   if (!name || !phone) {
     alert("يرجى ملء الاسم ورقم الواتساب");
@@ -695,7 +725,8 @@ function submitPreorder(productId, productName) {
   formData.append("name", name);
   formData.append("phone", phone);
   formData.append("product", productName);
-  formData.append("price", "25 دينار",);
+  formData.append("quantity", quantity);
+formData.append("price", totalPrice + " دينار");
   formData.append("type", "حجز مسبق (Soon)");
 
 
@@ -709,7 +740,10 @@ function submitPreorder(productId, productName) {
   })
   .catch(() => alert("حدث خطأ، حاول مرة أخرى"));
 }
-
+function updateJordanPrice() {
+  const qty = parseInt(document.getElementById('pre-quantity').value) || 1;
+  document.getElementById('jordan-total').textContent = qty * 25;
+}
     // تشغيل الموقع
     renderProducts(products);
   </script>
