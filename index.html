@@ -36,6 +36,31 @@
       object-fit: cover;
       z-index: -1;
     }
+    .product-image-container {
+      position: relative;
+    }
+.jordan-card {
+      position: relative;
+    }
+    .jordan-card img {
+      filter: brightness(0.6) contrast(1.15);
+    }
+    .soon-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      z-index: 10;
+      text-shadow: 0 0 20px rgba(0,0,0,0.9),
+                   3px 3px 0 #000,
+                   -3px -3px 0 #000;
+      font-family: 'Impact', sans-serif;
+    }
 
     /* إخفاء الفيديو على الموبايل */
     @media (max-width: 768px) {
@@ -80,14 +105,14 @@
 
 
     <!-- Overlay -->
-    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/75"></div>
 
     <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
       <h2 class="text-6xl md:text-7xl font-bold sporty-font leading-none mb-6 text-white">
         KIT UP LIKE A<br><span class="text-green-400">PRO</span>
       </h2>
       
-      <p class="text-2xl text-green-300 mb-8">تيشرتات اللاعبين الأصلية</p>
+      <p class="text-2xl text-green-300 mb-8">اسعارنا شاملة التوصيل- تيشرتات اللاعبين الأصلية</p>
       
       <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" 
               class="bg-green-500 text-black font-bold px-12 py-5 rounded-2xl text-xl hover:bg-green-400">
@@ -105,6 +130,7 @@
         <button onclick="filterCategory('worldcup')" class="pb-2 hover:text-green-400 whitespace-nowrap" id="tab-worldcup">منتخبات 2026</button>
         <button onclick="filterCategory('clubs')" class="pb-2 hover:text-green-400 whitespace-nowrap" id="tab-clubs">أندية</button>
         <button onclick="filterCategory('classic')" class="pb-2 hover:text-green-400 whitespace-nowrap" id="tab-classic">كلاسيك</button>
+        <button onclick="filterCategory('jordan')" class="pb-2 hover:text-green-400 whitespace-nowrap" id="tab-jordan">المنتخب الأردني</button>
       </div>
     </div>
   </div>
@@ -140,7 +166,7 @@
         </div>
 
         <!-- طباعة -->
-        <div class="bg-zinc-800 p-5 rounded-2xl">
+         <div id="print-section" class="bg-zinc-800 p-5 rounded-2xl">
           <label class="flex items-center gap-3 cursor-pointer">
             <input type="checkbox" id="custom-print" onchange="togglePrintFields()" class="w-5 h-5 accent-green-500">
             <span class="font-bold">أريد طباعة اسم + رقم على التيشيرت <span class="text-green-400">(+4 دنانير)</span></span>
@@ -314,30 +340,48 @@
       { id:15, category:"classic", name: "تيشرت المانيا 2014", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/rmqvYYcq/germani-2014-2015.jpg","https://i.postimg.cc/2yKMykWY/Germani-K3.jpg","https://i.postimg.cc/TwkHNdCr/Germani-K4.jpg","https://i.postimg.cc/cHJF3q0v/Germani-K2.jpg"] },
       { id:16, category:"classic", name: "تيشرت البرازيل 2002", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/1RkbktyK/brazil2002.jpg","https://i.postimg.cc/7YrQBWNM/Brazil-K.jpg","https://i.postimg.cc/zGJ2NH6Q/Brazil-K2.jpg","https://i.postimg.cc/DZbB6rJD/Brazil-K3.jpg"] },
       { id:17, category:"classic", name: "تيشرت اسبانيا 2010", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/T370X7ry/Spain2010.jpg","https://i.postimg.cc/PJyZQJyf/Spain-K.jpg","https://i.postimg.cc/HnNWmCsL/Spain-K3.jpg"] },
+      { id: 18, category: "jordan", name: "تيشرت المنتخب الأردني 2026 - النسخة الأساسية",desc: "نسخة اللاعبين", oldPrice: 28, price: 25, desc: "قريباً - حجز مسبق", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/nzFTpWgd/photo-5834837763566538638-y.jpg"], isJordan: true },
+      { id: 19, category: "jordan", name: "تيشرت المنتخب الأردني 2026 - لون ابيض",desc: "النسخة الاحتياطية", oldPrice: 28, price: 25, desc: "قريباً - حجز مسبق", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/Bn2CDsGr/photo-5834837763566538637-y.jpg"], isJordan: true },
+      { id: 20, category: "jordan", name: "تيشرت المنتخب الأردني 2026 - لون اسود",desc: "نسخة اللاعبين", oldPrice: 30, price: 25, desc: "قريباً - حجز مسبق", availableSizes: ["S","M","L","XL","XXL"], images: ["https://i.postimg.cc/8cFRCg4Q/photo-5834837763566538636-y.jpg"], isJordan: true },
     ];
 
+function renderProducts(filteredProducts) {
+  const grid = document.getElementById('products-grid');
+  grid.innerHTML = '';
+  
+  filteredProducts.forEach(p => {
+    const card = document.createElement('div');
+    card.className = p.isJordan ? 
+      "jordan-card product-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden cursor-pointer" : 
+      "product-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden cursor-pointer";
 
-
-    function renderProducts(filteredProducts) {
-      const grid = document.getElementById('products-grid');
-      grid.innerHTML = '';
-      filteredProducts.forEach(p => {
-        const card = document.createElement('div');
-        card.className = "product-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden cursor-pointer";
-        card.innerHTML = `
+    let imageHTML = `<img src="${p.images[0]}" class="w-full h-72 object-cover">`;
+    
+    if (p.isJordan) {
+      imageHTML = `
+        <div class="relative">
           <img src="${p.images[0]}" class="w-full h-72 object-cover">
-          <div class="p-5">
-            <h3 class="font-bold text-lg">${p.name}</h3>
-            <div class="flex items-center gap-3 mt-2">
-              <span class="old-price">${p.oldPrice} دينار</span>
-              <span class="text-2xl font-bold text-green-400">${p.price} دينار</span>
-            </div>
-          </div>
-        `;
-        card.onclick = () => showProductModal(p);
-        grid.appendChild(card);
-      });
+          <div class="soon-text">SOON</div>
+        </div>`;
     }
+
+    const priceHTML = p.isJordan ? 
+      `<span class="text-2xl font-bold text-green-400">${p.price} دينار</span>` :
+      `<span class="old-price">${p.oldPrice} دينار</span><span class="text-2xl font-bold text-green-400 ml-2">${p.price} دينار</span>`;
+
+    card.innerHTML = `
+      ${imageHTML}
+      <div class="p-5">
+        <h3 class="font-bold text-lg">${p.name}</h3>
+        <div class="flex items-center gap-3 mt-2">
+          ${priceHTML}
+        </div>
+      </div>
+    `;
+    card.onclick = () => showProductModal(p);
+    grid.appendChild(card);
+  });
+}
 
      function filterCategory(category) {
       currentFilter = category;
@@ -349,66 +393,88 @@
       else renderProducts(products.filter(p => p.category === category));
     }
 
+
+
     function showProductModal(product) {
-      currentProduct = product;
-      currentImages = product.images || [];
-      currentImageIndex = 0;
+  currentProduct = product;
+  currentImages = product.images || [];
+  currentImageIndex = 0;
 
-      document.getElementById('modal-title').textContent = product.name;
-      document.getElementById('modal-desc').textContent = product.desc || "";
-      document.getElementById('modal-price').innerHTML = `
-        <span class="old-price text-xl">${product.oldPrice} دينار</span>
-        <span class="text-4xl font-bold text-green-400 ml-3">${product.price} دينار</span>`;
+  document.getElementById('modal-title').textContent = product.name;
+  document.getElementById('modal-desc').textContent = product.desc || "تيشرت المنتخب الأردني 2026 - قريباً";
 
-      document.getElementById('custom-print').checked = false;
-      document.getElementById('print-fields').classList.add('hidden');
+  const priceHTML = product.isJordan 
+    ? `<span class="text-4xl font-bold text-green-400">${product.price} دينار</span>` 
+    : `<span class="old-price text-xl">${product.oldPrice} دينار</span> <span class="text-4xl font-bold text-green-400 ml-3">${product.price} دينار</span>`;
 
-      const video = document.getElementById('main-video');
-      const image = document.getElementById('main-image');
+  document.getElementById('modal-price').innerHTML = priceHTML;
 
-      if (product.video) {
-        video.src = product.video;
-        video.classList.remove('hidden');
-        image.classList.add('hidden');
-        video.load();
-      } else {
-        video.classList.add('hidden');
-        image.classList.remove('hidden');
-        image.src = currentImages[0] || '';
-      }
-            const select = document.getElementById('size-select');
-      select.innerHTML = '';
+  // زر مختلف للمنتخب الأردني
+  const addButton = document.querySelector('#product-modal button[onclick="addCurrentToCart()"]');
+  if (addButton) {
+    addButton.textContent = product.isJordan ? "حجز المنتج" : "أضف إلى السلة ⚡";
+    addButton.onclick = product.isJordan ? () => showJordanPreorderModal(product) : addCurrentToCart;
+  }
 
-      const defaultSizes = ["S", "M", "L", "XL", "XXL"];
-      const available = product.availableSizes || defaultSizes; // إذا ما فيه availableSizes يعرض الكل
 
-      defaultSizes.forEach(size => {
-        const option = document.createElement('option');
-        option.value = size;
-        option.textContent = size;
-        if (!available.includes(size)) {
-          option.disabled = true;
-          option.textContent = size + " (غير متوفر)";
-        }
-        select.appendChild(option);
-      });
+document.getElementById('custom-print').checked = false;
+document.getElementById('print-fields').classList.add('hidden');
 
-      // Thumbnails
-      const thumbs = document.getElementById('thumbnails');
-      thumbs.innerHTML = '';
-      currentImages.forEach((src, i) => {
-        const thumb = document.createElement('img');
-        thumb.src = src;
-        thumb.className = `w-full aspect-square object-cover rounded-2xl cursor-pointer border-2 transition-all ${i===0 ? 'border-green-500' : 'border-transparent'}`;
-        thumb.onclick = () => {
-          currentImageIndex = i;
-          updateMainImage();
-        };
-        thumbs.appendChild(thumb);
-      });
+const printSection = document.getElementById('print-section');
 
-      document.getElementById('product-modal').classList.remove('hidden');
+if (product.category === 'jordan') {
+    printSection.style.display = 'none';
+} else {
+    printSection.style.display = 'block';
+}
+  // الصورة أو الفيديو
+  const video = document.getElementById('main-video');
+  const image = document.getElementById('main-image');
+
+  if (product.video) {
+    video.src = product.video;
+    video.classList.remove('hidden');
+    image.classList.add('hidden');
+    video.load();
+  } else {
+    video.classList.add('hidden');
+    image.classList.remove('hidden');
+    image.src = currentImages[0] || '';
+  }
+
+  // المقاسات
+  const select = document.getElementById('size-select');
+  select.innerHTML = '';
+  const defaultSizes = ["S", "M", "L", "XL", "XXL"];
+  const available = product.availableSizes || defaultSizes;
+
+  defaultSizes.forEach(size => {
+    const option = document.createElement('option');
+    option.value = size;
+    option.textContent = size;
+    if (!available.includes(size)) {
+      option.disabled = true;
+      option.textContent = size + " (غير متوفر)";
     }
+    select.appendChild(option);
+  });
+
+  // Thumbnails
+  const thumbs = document.getElementById('thumbnails');
+  thumbs.innerHTML = '';
+  currentImages.forEach((src, i) => {
+    const thumb = document.createElement('img');
+    thumb.src = src;
+    thumb.className = `w-full aspect-square object-cover rounded-2xl cursor-pointer border-2 transition-all ${i===0 ? 'border-green-500' : 'border-transparent'}`;
+    thumb.onclick = () => {
+      currentImageIndex = i;
+      updateMainImage();
+    };
+    thumbs.appendChild(thumb);
+  });
+
+  document.getElementById('product-modal').classList.remove('hidden');
+}
 
     function updateMainImage() {
       const image = document.getElementById('main-image');
@@ -580,6 +646,69 @@
       })
       .catch(() => alert("حدث خطأ في الاتصال، تحقق من الإنترنت وحاول مرة أخرى"));
     }
+    function showJordanPreorderModal(product) {
+  const modalHTML = `
+    <div class="fixed inset-0 bg-black/90 flex items-center justify-center z-[100] p-4">
+      <div class="bg-zinc-900 rounded-3xl w-full max-w-md">
+        <div class="px-6 py-5 border-b flex justify-between items-center">
+          <h3 class="text-xl font-bold">${product.name}</h3>
+          <button onclick="this.closest('.fixed').remove()" class="text-4xl text-gray-400 hover:text-white">✕</button>
+        </div>
+        <div class="p-6 space-y-5">
+          <p class="text-green-400 text-3xl font-bold text-center">${product.price} دينار</p>
+
+          <div>
+            <label class="block mb-1 text-gray-400">الاسم الكامل</label>
+            <input type="text" id="pre-name" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4" placeholder="اسمك الكامل">
+          </div>
+          <div>
+            <label class="block mb-1 text-gray-400">رقم الواتساب</label>
+            <input type="tel" id="pre-phone" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4" placeholder="07xxxxxxxx">
+          </div>
+
+          <button onclick="submitPreorder(${product.id}, '${product.name}')" 
+                  class="w-full bg-green-500 hover:bg-green-400 text-black font-bold py-6 rounded-2xl text-lg mt-4">
+            تأكيد الحجز
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = modalHTML;
+  document.body.appendChild(tempDiv.firstElementChild);
+}
+
+function submitPreorder(productId, productName) {
+  const name = document.getElementById('pre-name').value.trim();
+  const phone = document.getElementById('pre-phone').value.trim();
+
+  if (!name || !phone) {
+    alert("يرجى ملء الاسم ورقم الواتساب");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("access_key", "0462819f-8f80-4761-864c-62424a1e9917");
+  formData.append("subject", `حجز تيشرت أردني - ${name}`);
+  formData.append("name", name);
+  formData.append("phone", phone);
+  formData.append("product", productName);
+  formData.append("price", "25 دينار",);
+  formData.append("type", "حجز مسبق (Soon)");
+
+
+  fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    body: formData
+  })
+  .then(() => {
+    alert("✅ تم تسجيل حجزك بنجاح! سنتواصل معك قريباً");
+    document.querySelector('.fixed.z-\\[100\\]').remove();
+  })
+  .catch(() => alert("حدث خطأ، حاول مرة أخرى"));
+}
 
     // تشغيل الموقع
     renderProducts(products);
