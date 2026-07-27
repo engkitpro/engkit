@@ -136,43 +136,24 @@
   </header>
   <!-- Hero Section - Responsive (فيديو على الكمبيوتر + صورة على الموبايل) -->
   <!-- Hero Section - Responsive -->
-  <section class="h-screen flex items-center relative overflow-hidden">
+  <!-- Hero Section - صورة ثابتة مؤقتاً -->
+<section class="h-screen flex items-center relative overflow-hidden bg-cover bg-center" 
+         style="background-image: url('https://files.catbox.moe/md18jy.webp');">
 
-    <!-- فيديو للكمبيوتر والتابلت -->
-<video class="hero-video" 
-       autoplay 
-       loop 
-       muted 
-       playsinline 
-       preload="auto"
-       style="object-fit: cover;">
-  <source src="https://cdn-cf-east.streamable.com/video/mp4/xa2lus.mp4" type="video/mp4">
-</video>
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/75"></div>
 
-
-
-    <!-- فيديو للموبايل -->
-    <video class="hero-vid" autoplay loop muted playsinline>
-      <source src="images/BALL.mp4" type="video/mp4">
-    </video>
-
-    <!-- Overlay -->
-    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/75"></div>
-
-    <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
-      <h2 class="text-6xl md:text-7xl font-bold sporty-font leading-none mb-6 text-white">
-        KIT UP LIKE A<br><span class="text-green-400">PRO</span>
-      </h2>
-
-      <p class="text-2xl text-green-300 mb-8">اسعارنا شاملة التوصيل- تيشرتات اللاعبين الأصلية</p>
-
-      <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})"
-        class="bg-green-500 text-black font-bold px-12 py-5 rounded-2xl text-xl hover:bg-green-400">
-        تسوق الآن ⚽
-      </button>
-    </div>
-  </section>
-
+  <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+    <h2 class="text-6xl md:text-7xl font-bold sporty-font leading-none mb-6 text-white">
+      KIT UP LIKE A<br><span class="text-green-400">PRO</span>
+    </h2>
+    <p class="text-2xl text-green-300 mb-8">اسعارنا شاملة التوصيل- تيشرتات اللاعبين الأصلية</p>
+    <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" 
+            class="bg-green-500 text-black font-bold px-12 py-5 rounded-2xl text-xl hover:bg-green-400">
+      تسوق الآن ⚽
+    </button>
+  </div>
+</section>
 
   <!-- Categories Tabs -->
   <div class="sticky top-0 bg-zinc-900 border-b border-zinc-700 z-40">
