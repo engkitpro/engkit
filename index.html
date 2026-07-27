@@ -98,7 +98,13 @@
 <section class="h-screen flex items-center relative overflow-hidden">
   
   <!-- فيديو للكمبيوتر والتابلت -->
-<video class="hero-video" autoplay loop muted playsinline preload="auto">
+<video class="hero-video" 
+       autoplay 
+       loop 
+       muted 
+       playsinline 
+       preload="auto"
+       style="object-fit: cover;">
   <source src="https://i.imgur.com/3pRnhts.mp4" type="video/mp4">
 </video>
 
@@ -350,7 +356,15 @@
       { id:21, category:"classic", name: "تيشرت البرازيل 2002", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["M","L"], images: ["https://i.postimg.cc/1RkbktyK/brazil2002.jpg","https://i.postimg.cc/7YrQBWNM/Brazil-K.jpg","https://i.postimg.cc/zGJ2NH6Q/Brazil-K2.jpg","https://i.postimg.cc/DZbB6rJD/Brazil-K3.jpg"] },
       { id:22, category:"classic", name: "تيشرت اسبانيا 2010", oldPrice: 25, price: 20, desc: "نسخة اللاعبين", availableSizes: ["L"], images: ["https://i.postimg.cc/T370X7ry/Spain2010.jpg","https://i.postimg.cc/PJyZQJyf/Spain-K.jpg","https://i.postimg.cc/HnNWmCsL/Spain-K3.jpg"] },
 ];
-
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const videos = document.querySelectorAll('.hero-video, .hero-vid');
+      videos.forEach(video => {
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+    });
+  </script>
 function renderProducts(filteredProducts) {
   const grid = document.getElementById('products-grid');
   grid.innerHTML = '';
