@@ -216,7 +216,7 @@
         <div id="print-section" class="bg-zinc-800 p-5 rounded-2xl">
           <label class="flex items-center gap-3 cursor-pointer">
             <input type="checkbox" id="custom-print" onchange="togglePrintFields()" class="w-5 h-5 accent-green-500">
-            <span class="font-bold">أريد طباعة اسم + رقم على التيشيرت <span class="text-green-400">(+4
+            <span class="font-bold">أريد طباعة اسم + رقم على التيشيرت <span class="text-green-400">(+5
                 دنانير)</span></span>
           </label>
 
@@ -586,7 +586,7 @@
       const printNumber = document.getElementById('print-number').value.trim();
 
       let finalPrice = currentProduct.price;
-      if (wantPrint) finalPrice += 4;
+      if (wantPrint) finalPrice += 5;
 
       cart.push({
         ...currentProduct,
@@ -599,7 +599,7 @@
       });
 
       updateCartCount();
-      alert(`${currentProduct.name} ${wantPrint ? '(مع طباعة +4 د.ا)' : ''} ✅`);
+      alert(`${currentProduct.name} ${wantPrint ? '(مع طباعة +5 د.ا)' : ''} ✅`);
       closeProductModal();
     }
 
