@@ -116,7 +116,8 @@ if(window.location.hash.includes('type=recovery')||new URLSearchParams(window.lo
 try{const saved=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}');const c={url:saved.url||DEFAULT_CONFIG.url,key:saved.key||DEFAULT_CONFIG.key};$('projectUrl').value=c.url;$('publishableKey').value=c.key;initClient();$('setup').classList.add('hidden');$('login').classList.remove('hidden')}catch(e){$('setup').classList.remove('hidden')}
 $('loginForm').onsubmit=async e=>{e.preventDefault();try{if(!sb)initClient();const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;await showApp()}catch(e){say('loginMsg',e.message||'تعذر تسجيل الدخول',true)}};
 $('logout').onclick=async()=>{await sb.auth.signOut();$('app').classList.add('hidden');$('login').classList.remove('hidden');$('logout').classList.add('hidden')};
-async function showApp(){const {data:{user}}=await sb.auth.getUser();if(!user)throw Error('سجّلي الدخول أولًا.');const {data:admins,error}=await sb.from('admin_users').select('user_id').eq('user_id',user.id);if(error)throw error;if(!admins?.length)throw Error('هذا الحساب غير مضاف كمدير في admin_users.');$('login').classList.add('hidden');$('setup').classList.add('hidden');$('app').classList.remove('hidden');$('logout').classList.remove('hidden');await loadProducts()}
+async function showApp(){const {data:{user}}=await sb.auth.getUser();if(!user)throw Error('سجّلي الدخول أولًا.');const {data:admins,error}=await sb.from('admin_users').select('user_id').eq('user_id',user.id);if(error)throw error;if(!admins?.length)throw Error('هذا الحساب غير مضاف كمدير في admin_users.');$('login').classList.add('hidden');$('setup').classList.add('hidden');$('app').classList.remove('hidden');$('logout').classList.remove('hidden');await loadCategories();
+await loadProducts();}
 
   let categories = [];
 
