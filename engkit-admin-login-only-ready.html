@@ -24,6 +24,38 @@ body{background:#09090b;color:#f4f4f5;font-family:Arial,sans-serif}.field{width:
 <div class="flex flex-wrap items-center justify-between gap-3"><div><h1 class="text-3xl font-bold">المنتجات والأسعار</h1><p class="text-zinc-400 mt-1">التغييرات تُحفظ في قاعدة البيانات المشتركة.</p></div><div class="flex flex-wrap gap-2"><button id="seed" class="btn muted">استيراد منتجات الموقع الحالية (مرة واحدة)</button><button id="add" class="btn green">+ إضافة منتج</button></div></div>
 <div class="flex gap-3"><input id="search" class="field max-w-md" placeholder="ابحثي عن منتج..." ><button id="reload" class="btn muted">تحديث</button></div>
 <p id="appMsg" class="text-sm"></p><div id="products" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+
+<!-- إدارة التصنيفات -->
+<section class="panel p-5 space-y-4">
+  <h2 class="text-2xl font-bold">إدارة التصنيفات</h2>
+
+  <form id="categoryForm" class="flex flex-wrap gap-3">
+    <input
+      id="categoryName"
+      class="field flex-1 min-w-40"
+      placeholder="اسم التصنيف بالعربي"
+      required
+    >
+
+    <input
+      id="categorySlug"
+      class="field flex-1 min-w-40"
+      placeholder="معرّف التصنيف بالإنجليزي، مثل: accessories"
+      required
+      pattern="[a-z0-9-]+"
+      title="استخدمي حروفًا إنجليزية صغيرة وأرقامًا وشرطة فقط"
+    >
+
+    <button type="submit" class="btn green">
+      + إضافة تصنيف
+    </button>
+  </form>
+
+  <p id="categoryMsg" class="text-sm"></p>
+  <div id="categoryList" class="space-y-2"></div>
+</section>
+      
 </section>
 </main>
 <div id="editor" class="hidden fixed inset-0 z-40 bg-black/80 p-3 md:p-8 overflow-y-auto"><div class="panel max-w-3xl mx-auto p-5 my-4">
