@@ -432,10 +432,11 @@ async function loadSupabaseProducts() {
     coverImage: p.cover_image || null
   }));
 
-  console.log("Supabase products loaded:", convertedProducts.length);
-  console.table(convertedProducts);
+console.log("Supabase products loaded:", convertedProducts.length);
+console.table(convertedProducts);
 
-  return convertedProducts;
+supabaseProducts = convertedProducts;
+return convertedProducts;
 }
 
 
