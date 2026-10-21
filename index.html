@@ -395,6 +395,22 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_KEY
 );
 
+    
+async function testSupabaseProducts() {
+  const { data, error } = await supabaseClient
+    .from("products")
+    .select("*");
+
+  if (error) {
+    console.error("Supabase products error:", error);
+    return;
+  }
+
+  console.log("Supabase products loaded:", data.length);
+  console.table(data);
+}
+
+
 
  const products = [
       
