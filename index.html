@@ -396,18 +396,45 @@ const supabaseClient = window.supabase.createClient(
 );
 
     
-async function testSupabaseProducts() {
+
+async function loadSupabaseProducts() {
   const { data, error } = await supabaseClient
     .from("products")
     .select("*");
 
   if (error) {
     console.error("Supabase products error:", error);
-    return;
+    return null;
   }
 
-  console.log("Supabase products loaded:", data.length);
-  console.table(data);
+  if (!Array.isArray(data)) {
+    console.error("Supabase returned invalid products data");
+    return null;
+  }
+
+  const convertedProducts = data.map((p) => ({
+    ...p,
+    id: p.id,
+    name: p.name,
+    category: p.category,
+    price: Number(p.price) || 0,
+    oldPrice: Number(p.old_price) || 0,
+    desc: p.description || "",
+    availableSizes: Array.isArray(p.available_sizes)
+      ? p.available_sizes
+      : [],
+    images: Array.isArray(p.images)
+      ? p.images
+      : [],
+    video: p.video || null,
+    isJordan: p.is_jordan === true,
+    coverImage: p.cover_image || null
+  }));
+
+  console.log("Supabase products loaded:", convertedProducts.length);
+  console.table(convertedProducts);
+
+  return convertedProducts;
 }
 
 
