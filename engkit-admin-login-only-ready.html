@@ -117,7 +117,105 @@ try{const saved=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}');const c={ur
 $('loginForm').onsubmit=async e=>{e.preventDefault();try{if(!sb)initClient();const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;await showApp()}catch(e){say('loginMsg',e.message||'تعذر تسجيل الدخول',true)}};
 $('logout').onclick=async()=>{await sb.auth.signOut();$('app').classList.add('hidden');$('login').classList.remove('hidden');$('logout').classList.add('hidden')};
 async function showApp(){const {data:{user}}=await sb.auth.getUser();if(!user)throw Error('سجّلي الدخول أولًا.');const {data:admins,error}=await sb.from('admin_users').select('user_id').eq('user_id',user.id);if(error)throw error;if(!admins?.length)throw Error('هذا الحساب غير مضاف كمدير في admin_users.');$('login').classList.add('hidden');$('setup').classList.add('hidden');$('app').classList.remove('hidden');$('logout').classList.remove('hidden');await loadProducts()}
-async function loadProducts(){say('appMsg','جاري تحميل المنتجات...');const {data,error}=await sb.from('products').select('*').order('id');if(error){say('appMsg',error.message,true);return}products=(data||[]).map(fromDb);render();say('appMsg',`تم تحميل ${products.length} منتجًا من قاعدة البيانات.`)}
+
+  let categories = [];
+
+async function loadCategories() {
+  const { data, error } = await sb
+    .from('categories')
+    .select('id, name, slug')
+    .order('id');
+
+  if (error) {
+    say('categoryMsg', 'تعذر تحميل التصنيفات: ' + error.message, true);
+    return;
+  }
+
+  categories = data || [];
+
+  $('categoryList').innerHTML = categories.map(c => `
+    <div class="panel p-3 flex justify-between items-center gap-3">
+      <div>
+        <b>${esc(c.name)}</b>
+        <span class="text-zinc-400 text-sm mr-2">${esc(c.slug)}</span>
+      </div>
+      <button type="button" class="btn red"
+        onclick="deleteCategory(${c.id})">
+        حذف
+      </button>
+    </div>
+  `).join('') || '<p class="text-zinc-400">لا توجد تصنيفات.</p>';
+
+  const select = $('category');
+  const selected = select.value;
+
+  select.innerHTML = categories.map(c =>
+    `<option value="${esc(c.slug)}">${esc(c.name)}</option>`
+  ).join('');
+
+  if (categories.some(c => c.slug === selected)) {
+    select.value = selected;
+  }
+}
+
+$('categoryForm').onsubmit = async e => {
+  e.preventDefault();
+
+  const name = $('categoryName').value.trim();
+  const slug = $('categorySlug').value.trim().toLowerCase();
+
+  if (!name || !slug) return;
+
+  const { error } = await sb
+    .from('categories')
+    .insert([{ name, slug }]);
+
+  if (error) {
+    say('categoryMsg', 'تعذرت إضافة التصنيف: ' + error.message, true);
+    return;
+  }
+
+  $('categoryForm').reset();
+  say('categoryMsg', 'تمت إضافة التصنيف بنجاح.');
+  await loadCategories();
+};
+
+window.deleteCategory = async id => {
+  const category = categories.find(c => c.id === id);
+  if (!category) return;
+
+  const { count, error: countError } = await sb
+    .from('products')
+    .select('*', { count: 'exact', head: true })
+    .eq('category', category.slug);
+
+  if (countError) {
+    say('categoryMsg', 'تعذر التحقق من المنتجات: ' + countError.message, true);
+    return;
+  }
+
+  if (count > 0) {
+    say('categoryMsg', 'لا يمكن حذف هذا التصنيف لأنه مستخدم في منتجات موجودة.', true);
+    return;
+  }
+
+  if (!confirm(`هل تريدين حذف التصنيف "${category.name}"؟`)) return;
+
+  const { error } = await sb
+    .from('categories')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    say('categoryMsg', 'تعذر حذف التصنيف: ' + error.message, true);
+    return;
+  }
+
+  say('categoryMsg', 'تم حذف التصنيف.');
+  await loadCategories();
+};
+  
+  async function loadProducts(){say('appMsg','جاري تحميل المنتجات...');const {data,error}=await sb.from('products').select('*').order('id');if(error){say('appMsg',error.message,true);return}products=(data||[]).map(fromDb);render();say('appMsg',`تم تحميل ${products.length} منتجًا من قاعدة البيانات.`)}
 function fromDb(p){return {id:p.id,name:p.name,category:p.category,price:Number(p.price),oldPrice:p.old_price==null?Number(p.price):Number(p.old_price),desc:p.description||'',availableSizes:p.available_sizes||[],coverImage:p.cover_image||((p.images||[])[0]||''),images:p.images||[],video:p.video||'',isJordan:!!p.is_jordan}}
 function toDb(p){return {id:p.id,name:p.name,category:p.category,price:p.price,old_price:p.oldPrice,description:p.desc,available_sizes:p.availableSizes,cover_image:p.coverImage||null,images:p.images,video:p.video||null,is_jordan:!!p.isJordan,updated_at:new Date().toISOString()}}
 function render(){const q=$('search').value.trim().toLowerCase();$('products').innerHTML=products.filter(p=>p.name.toLowerCase().includes(q)).map(p=>`<article class="panel overflow-hidden"><img src="${esc(p.coverImage||p.images[0]||'')}" class="w-full h-44 object-cover bg-zinc-900" onerror="this.style.display='none'"><div class="p-4"><div class="flex justify-between gap-2"><b>${esc(p.name)}</b><b class="text-green-400">${p.price} د.ا</b></div><p class="text-zinc-400 text-sm mt-2">${esc(p.category)} · ${esc((p.availableSizes||[]).join('، '))}</p><p class="text-zinc-500 text-xs mt-2">${(p.images||[]).length} صور ${p.video?'· فيديو':''}</p><div class="flex gap-2 mt-4"><button class="btn green flex-1" onclick="editProduct(${p.id})">تعديل</button><button class="btn red" onclick="deleteProduct(${p.id})">حذف</button></div></div></article>`).join('')||'<p class="text-zinc-400">لا توجد منتجات. يمكنك استيراد المنتجات الحالية.</p>'}
