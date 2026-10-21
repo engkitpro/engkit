@@ -867,8 +867,31 @@ return convertedProducts;
       const qty = parseInt(document.getElementById('pre-quantity').value) || 1;
       document.getElementById('jordan-total').textContent = qty * 25;
     }
-    // تشغيل الموقع
+ 
+    // تشغيل الموقع مع الاحتفاظ بالمنتجات القديمة كنسخة احتياطية
     renderProducts(products);
+
+    loadSupabaseProducts().then((loadedProducts) => {
+      if (!loadedProducts || loadedProducts.length === 0) {
+        console.warn("Using the original products as fallback.");
+        return;
+      }
+
+      products.splice(0, products.length, ...loadedProducts);
+
+      if (currentFilter === "all") {
+        renderProducts(products);
+      } else {
+        renderProducts(
+          products.filter((p) => p.category === currentFilter)
+        );
+      }
+
+      console.log("Storefront updated from Supabase.");
+    }).catch((error) => {
+      console.error("Could not update storefront from Supabase:", error);
+    });
+
   </script>
     <script>
     document.addEventListener("DOMContentLoaded", () => {
