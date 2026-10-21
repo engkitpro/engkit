@@ -480,15 +480,29 @@ return convertedProducts;
           "jordan-card product-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden cursor-pointer" :
           "product-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden cursor-pointer";
 
-        let imageHTML = `<img src="${p.images[0]}" class="w-full h-72 object-cover">`;
+   const cover = p.coverImage || p.images?.[0] || "";
 
-        if (p.isJordan) {
-          imageHTML = `
-        <div class="relative">
-          <img src="${p.images[0]}" class="w-full h-72 object-cover">
-          <div class="soon-text">SOON</div>
-        </div>`;
-        }
+let imageHTML = `
+  <img
+    src="${cover}"
+    alt="${p.name}"
+    class="w-full h-72 object-cover"
+    onerror="this.style.display='none'"
+  >
+`;
+
+if (p.isJordan) {
+  imageHTML = `
+    <div class="relative">
+      <img
+        src="${cover}"
+        alt="${p.name}"
+        class="w-full h-72 object-cover"
+        onerror="this.style.display='none'"
+      >
+      <div class="soon-text">SOON</div>
+    </div>`;
+}
 
         const priceHTML = p.isJordan ?
           `<span class="text-2xl font-bold text-green-400">${p.price} دينار</span>` :
