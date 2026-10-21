@@ -574,20 +574,24 @@ if (p.isJordan) {
       }
 
 
-      // الصورة أو الفيديو
+   
+      // عرض صور المنتج أو الفيديو إذا كان له رابط صالح
       const video = document.getElementById('main-video');
       const image = document.getElementById('main-image');
 
-      if (product.video) {
-        video.src = product.video;
-        video.classList.remove('hidden');
-        image.classList.add('hidden');
-        video.load();
-      } else {
-        video.classList.add('hidden');
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+      video.classList.add('hidden');
+
+      if (currentImages.length > 0) {
+        image.src = currentImages[0];
         image.classList.remove('hidden');
-        image.src = currentImages[0] || '';
+      } else {
+        image.removeAttribute('src');
+        image.classList.add('hidden');
       }
+
 
       // المقاسات
       const select = document.getElementById('size-select');
