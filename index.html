@@ -170,20 +170,21 @@
     </div>
   </section>
 
-  <!-- Categories Tabs -->
-  <div class="sticky top-0 bg-zinc-900 border-b border-zinc-700 z-40">
-    <div class="max-w-7xl mx-auto px-5">
-      <div class="flex gap-8 text-lg overflow-x-auto py-4" id="category-tabs">
-        <button onclick="filterCategory('all')" class="tab-active pb-2 whitespace-nowrap" id="tab-all">الكل</button>
-        <button onclick="filterCategory('worldcup')" class="pb-2 hover:text-green-400 whitespace-nowrap"
-          id="tab-worldcup">منتخبات 2026</button>
-        <button onclick="filterCategory('clubs')" class="pb-2 hover:text-green-400 whitespace-nowrap"
-          id="tab-clubs">أندية</button>
-        <button onclick="filterCategory('classic')" class="pb-2 hover:text-green-400 whitespace-nowrap"
-          id="tab-classic">كلاسيك</button>
-      </div>
+
+<!-- Categories Tabs -->
+<div class="sticky top-0 bg-zinc-900 border-b border-zinc-700 z-40">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="flex gap-8 text-lg overflow-x-auto py-4" id="category-tabs">
+      <button
+        onclick="filterCategory('all')"
+        class="tab-active pb-2 whitespace-nowrap"
+        id="tab-all">
+        الكل
+      </button>
     </div>
   </div>
+</div>
+
 
   <!-- Products -->
   <section id="products" class="max-w-7xl mx-auto px-5 py-20">
@@ -397,6 +398,48 @@ const supabaseClient = window.supabase.createClient(
 );
 
     
+let supabaseCategories = [];
+
+async function loadSupabaseCategories() {
+  const { data, error } = await supabaseClient
+    .from("categories")
+    .select("name, slug")
+    .order("id");
+
+  if (error) {
+    console.error("Supabase categories error:", error);
+    return;
+  }
+
+  supabaseCategories = data || [];
+
+  const tabs = document.getElementById("category-tabs");
+
+  tabs.innerHTML = `
+    <button
+      onclick="filterCategory('all')"
+      class="pb-2 whitespace-nowrap hover:text-green-400"
+      id="tab-all">
+      الكل
+    </button>
+  `;
+
+  supabaseCategories.forEach(category => {
+    const button = document.createElement("button");
+
+    button.id = "tab-" + category.slug;
+    button.textContent = category.name;
+    button.className =
+      "pb-2 whitespace-nowrap hover:text-green-400";
+
+    button.onclick = () => filterCategory(category.slug);
+
+    tabs.appendChild(button);
+  });
+
+  filterCategory(currentFilter);
+}
+
 
 async function loadSupabaseProducts() {
   const { data, error } = await supabaseClient
@@ -522,15 +565,27 @@ if (p.isJordan) {
       });
     }
 
-    function filterCategory(category) {
-      currentFilter = category;
-      document.querySelectorAll('#category-tabs button').forEach(btn => btn.classList.remove('tab-active'));
-      if (category === 'all') document.getElementById('tab-all').classList.add('tab-active');
-      else document.getElementById('tab-' + category).classList.add('tab-active');
 
-      if (category === 'all') renderProducts(products);
-      else renderProducts(products.filter(p => p.category === category));
-    }
+function filterCategory(category) {
+  currentFilter = category;
+
+  document.querySelectorAll("#category-tabs button")
+    .forEach(btn => btn.classList.remove("tab-active"));
+
+  const activeTab = document.getElementById("tab-" + category);
+
+  if (activeTab) {
+    activeTab.classList.add("tab-active");
+  }
+
+  if (category === "all") {
+    renderProducts(products);
+  } else {
+    renderProducts(
+      products.filter(p => p.category === category)
+    );
+  }
+}
 
 
 
@@ -888,6 +943,8 @@ if (p.isJordan) {
  
     // تشغيل الموقع مع الاحتفاظ بالمنتجات القديمة كنسخة احتياطية
     renderProducts(products);
+
+  loadSupabaseCategories();
 
     loadSupabaseProducts().then((loadedProducts) => {
       if (!loadedProducts || loadedProducts.length === 0) {
